@@ -1,7 +1,7 @@
 (function () {
     angular.
         module('TestApp', ['ui.router']).
-        constant('API_POINT', 'http://smktesting.herokuapp.com').
+        constant('API_POINT', 'https://smktesting.herokuapp.com').
         factory('productFactory', productFactory).
         factory('authFactory', authFactory).
         factory('reviewFactory', reviewFactory).
