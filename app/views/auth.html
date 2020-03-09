@@ -1,0 +1,40 @@
+<div class="row row-cols-1 justify-content-center">
+    <div class="col col-sm-10 col-md-8 col-lg-6 mt-3" ng-if="auth.view.viewMode === auth.view.AUTH_MODE">
+        <form name="auth_form" ng-submit="auth.ctrl.auth()">
+            <div class="form-group">
+                <label for="authUsername">Username</label>
+                <input ng-model="auth.model.authUsername" type="text" class="form-control" id="authUsername">
+            </div>
+            <div class="form-group">
+                <label for="authPassword">Password</label>
+                <input ng-model="auth.model.authPassword" type="password" class="form-control" id="authPassword">
+            </div>
+            <div class="form-group" ng-if="auth.view.authErrors.length > 0">
+                <div class="text-danger" ng-repeat="error in auth.view.authErrors"><small>{{error}}</small></div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Login</button>
+        </form>
+        <div class="text-center mt-3">
+            <a ng-click="auth.ctrl.toRegisterMode()" href="">Not with us? Why not register?</a>
+        </div>
+    </div>
+    <div class="col col-sm-10 col-md-8 col-lg-6 mt-3" ng-if="auth.view.viewMode === auth.view.REG_MODE">
+        <form name="auth_form" ng-submit="auth.ctrl.register()">
+            <div class="form-group">
+                <label for="regUsername">Username</label>
+                <input ng-model="auth.model.regUsername" type="text" class="form-control" id="regUsername">
+            </div>
+            <div class="form-group">
+                <label for="regPassword">Password</label>
+                <input ng-model="auth.model.regPassword" type="password" class="form-control" id="regPassword">
+            </div>
+            <div class="form-group" ng-if="auth.view.regErrors.length > 0">
+                <div class="text-danger" ng-repeat="error in auth.view.regErrors"><small>{{error}}</small></div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Register</button>
+        </form>
+        <div class="text-center mt-3">
+            <a ng-click="auth.ctrl.toAuthMode()" href="">Already with us? Back to login.</a>
+        </div>
+    </div>
+</div>

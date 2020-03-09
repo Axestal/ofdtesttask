@@ -1,0 +1,63 @@
+[ng-cloak] {
+    display: none;
+}
+
+/* codepen https://codepen.io/orchard/pen/Jnwvb */
+.star-rating-radio label{
+    margin: 0;
+}
+.star-rating-radio > fieldset {
+    border: none;
+    display: inline-block;
+    position: relative;
+}
+.star-rating-radio > fieldset:not(:checked) > input {
+    position: absolute;
+    top: -9999px;
+    clip: rect(0, 0, 0, 0);
+}
+.star-rating-radio > fieldset:not(:checked) > label {
+    float: right;
+    padding: 0 0.05em;
+    overflow: hidden;
+    white-space: nowrap;
+    cursor: pointer;
+    font-size: 200%;
+    color: #ffbd16;
+}
+.star-rating-radio > fieldset:not(:checked) > label:before {
+    content: '\2605';
+    color: #aaa;
+}
+.star-rating-radio > fieldset:not(:checked) > label:hover,
+.star-rating-radio > fieldset:not(:checked) > label:hover ~ label {
+    color: #ffbd16;
+}
+.star-rating-radio > fieldset:not(:checked) > label:hover:before,
+.star-rating-radio > fieldset:not(:checked) > label:hover ~ label:before {
+    content: '\2605';
+    color: #ffbd16;
+}
+.star-rating-radio > fieldset > input:checked ~ label:before {
+    content: '\2605';
+    color: #ffbd16;
+}
+.star-rating-radio > fieldset > label:active {
+    position: relative;
+    top: 2px;
+}
+
+.review-item {
+    border-bottom: 1px solid #aaa;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+    line-height: 150%;
+}
+
+.star-rating-item {
+    color: #aaa;
+}
+
+.star-rating-item.active {
+    color: #ffbd16;
+}

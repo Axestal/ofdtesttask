@@ -1,0 +1,33 @@
+<div class="row mt-3 mb-3">
+    <div class="col">
+        <h1>Our products</h1>
+    </div>
+</div>
+<div class="row justify-content-center" ng-if="products.view.showLoader">
+    <div class="spinner-border text-primary" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
+    <div class="col mb-4" ng-repeat="product in products.view.items">
+        <div class="row row-cols-1">
+            <div class="col mb-2">
+                <img class="img-thumbnail rounded mx-auto d-block" ng-src="/images/{{product.img}}" alt="{{products.title}}">
+            </div>
+            <div class="col mb-2 text-truncate">
+                {{product.title}}
+            </div>
+            <div class="col mb-3 text-truncate">
+                {{product.text}}
+            </div>
+            <div class="col text-center">
+                <button ng-click="products.ctrl.selectProduct(product.id)" class="btn btn-primary btn-block">Select</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row" ng-if="products.view.showWarning">
+    <div class="col text-center text-danger">
+        We are really sorry, something went horribly wrong!
+    </div>
+</div>

@@ -1,0 +1,55 @@
+<div class="row row-cols-1 row-cols-sm-2 mt-3">
+    <div class="col">
+        <img class="img-fluid" ng-src="/images/{{product.view.item.img}}" alt="{{product.view.item.title}}">
+    </div>
+    <div class="col">
+        <div class="row row-cols-1 mt-3">
+            <div class="col mb-3">
+                <h1>{{product.view.item.title}}</h1>
+            </div>
+            <div class="col mb-5">
+                <i>{{product.view.item.text}}</i>
+            </div>
+            <div class="col mb-1">
+                <h4>Customers reviews:</h4>
+            </div>
+            <div class="col" ng-if="!product.view.userLogged">
+                <div class="alert alert-info" role="alert">
+                    To leave your review, please, <a ui-sref="auth" href="">login</a> on our website
+                </div>
+            </div>
+            <div class="col mb-3" ng-if="product.view.userLogged && !product.view.reviewListError">
+                <form name="reviewForm" ng-submit="product.ctrl.sendReview()">
+                    <div class="star-rating-radio">
+                        <fieldset>
+                            <input ng-model="product.model.reviewRate" type="radio" id="star5" name="review_rating" value="5" /><label for="star5" title="Outstanding"></label>
+                            <input ng-model="product.model.reviewRate" type="radio" id="star4" name="review_rating" value="4" /><label for="star4" title="Very Good"></label>
+                            <input ng-model="product.model.reviewRate" type="radio" id="star3" name="review_rating" value="3" /><label for="star3" title="Good"></label>
+                            <input ng-model="product.model.reviewRate" type="radio" id="star2" name="review_rating" value="2" /><label for="star2" title="Poor"></label>
+                            <input ng-model="product.model.reviewRate" type="radio" id="star1" name="review_rating" value="1" /><label for="star1" title="Very Poor"></label>
+                        </fieldset>
+                    </div>
+                    <div class="form-group">
+                        <label for="review_text">Tell us your opinion</label>
+                        <textarea ng-model="product.model.reviewText" class="form-control" id="review_text" rows="3"></textarea>
+                    </div>
+                    <div class="text-danger" ng-if="product.view.reviewSendErrors">
+                        <small>{{product.view.reviewSendErrors}}</small>
+                    </div>
+                    <div class="text-right">
+                        <button type="submit" class="btn btn-primary">Send review</button>
+                    </div>
+                </form>
+            </div>
+            <div class="col review-item" ng-repeat="review in product.view.reviews" ng-if="!product.view.reviewListError">
+                <div>{{review.created_by.username}} <small>{{review.created_at | date: 'dd-MM-yyyy HH:mm:ss'}}</small></div>
+                <div rating-stars rating="review.rate"></div>
+                <div>{{review.text}}</div>
+            </div>
+            <div class="col" ng-if="product.view.reviewListError">
+                <span class="text-danger">Error occurred while getting reviews,
+                    <a ng-click="product.ctrl.updateReviews(product.view.item.id)" href="">try again</a>?</span>
+            </div>
+        </div>
+    </div>
+</div>
