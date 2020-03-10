@@ -13,6 +13,7 @@
     AppConfig.$inject = ['$stateProvider', '$urlRouterProvider', '$locationProvider'];
     function AppConfig($stateProvider, $urlRouterProvider, $locationProvider) {
 
+        //Список товаров
         let productListState = {
             name: 'productList',
             url: '/',
@@ -21,6 +22,7 @@
             controllerAs: 'products'
         };
 
+        //страница товара
         let productState = {
             name: 'product',
             url: '/product/:productId',
@@ -29,6 +31,7 @@
             controllerAs: 'product'
         };
 
+        //страница авторизации/регистрации
         let authState = {
             name: 'auth',
             url: '/auth',
@@ -37,11 +40,13 @@
             controllerAs: 'auth'
         };
 
+        //убираем символ ! из адреса роутига (для эстетики)
         $locationProvider.hashPrefix('');
 
         $stateProvider.state(productListState);
         $stateProvider.state(productState);
         $stateProvider.state(authState);
+        //в случае неизвестного роутинга, возвращаемся на страницу товаров
         $urlRouterProvider.otherwise('/');
 
     }

@@ -1,3 +1,8 @@
+/**
+ * Ошибка фабрики отзывов
+ * @param message
+ * @constructor
+ */
 function ReviewApiError(message) {
     this.name = "ReviewApiError";
     this.message = (message || "");

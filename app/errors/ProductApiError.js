@@ -1,3 +1,8 @@
+/**
+ * Ошибка фабрики получения продукции
+ * @param message
+ * @constructor
+ */
 function ProductApiError(message) {
     this.name = "ProductApiError";
     this.message = (message || "");

@@ -1,5 +1,14 @@
 reviewFactory.$inject = ['API_POINT', '$http', '$httpParamSerializerJQLike', '$q', 'authFactory'];
 
+/**
+ * Фабрика работы с отзывами
+ * @param API_POINT - хост API приложения
+ * @param $http
+ * @param $httpParamSerializerJQLike
+ * @param $q
+ * @param authFactory
+ * @returns
+ */
 function reviewFactory(API_POINT, $http, $httpParamSerializerJQLike, $q, authFactory) {
     return {
         getProductReviews: getProductReviews,
@@ -8,6 +17,11 @@ function reviewFactory(API_POINT, $http, $httpParamSerializerJQLike, $q, authFac
         validateReviewData: validateReviewData
     };
 
+    /**
+     * Получить список отзывов товара
+     * @param productId - id товара
+     * @returns Promise
+     */
     function getProductReviews(productId) {
         let url = API_POINT + '/api/reviews/' + productId;
         return $http({
@@ -20,11 +34,17 @@ function reviewFactory(API_POINT, $http, $httpParamSerializerJQLike, $q, authFac
         })
     }
 
+    /**
+     * Добавление отзыва пользователем
+     * @param productId - id товара
+     * @param reviewData - результат метода prepareReviewData
+     * @returns Promise
+     */
     function addProductReview(productId, reviewData) {
         let url = API_POINT + '/api/reviews/' + productId;
         let token = authFactory.getToken();
 
-        if (token === null) {
+        if (token === null) { //гости не могут оставлять отзывы
             return $q.reject(new AuthApiError('User not authorized'));
         }
 
@@ -48,6 +68,13 @@ function reviewFactory(API_POINT, $http, $httpParamSerializerJQLike, $q, authFac
         });
     }
 
+    /**
+     * Форматирование данных из формы отзыва
+     * @param rate
+     * @param text
+     * @returns {{rate: number, text: string}}
+     * P.S. лучше создать класс Review и поместить форматирование в конструктор
+     */
     function prepareReviewData(rate, text) {
         return {
             rate: Number(rate),
@@ -55,8 +82,18 @@ function reviewFactory(API_POINT, $http, $httpParamSerializerJQLike, $q, authFac
         }
     }
 
+    /**
+     * Валидация данных отзыва
+     * @param reviewData
+     * @returns {{valid: boolean, errors: []}}
+     */
     function validateReviewData(reviewData) {
         let errors = [];
+
+        if(reviewData.rate < 1 || reviewData.rate > 5) {
+            errors.push('You somehow manage to input incorrect rate value.')
+        }
+
         if (reviewData.text.length <= 3) {
             errors.push('Please, write something so we can know your opinion.')
         }

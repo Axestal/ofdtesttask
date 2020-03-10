@@ -1,9 +1,17 @@
 authFactory.$inject = ['API_POINT', '$rootScope', '$http', '$httpParamSerializerJQLike'];
 
+/**
+ * Фабрика авторизации/регистрации пользователя
+ * @param API_POINT - хост API приложения
+ * @param $rootScope
+ * @param $http
+ * @param $httpParamSerializerJQLike
+ * @returns
+ */
 function authFactory(API_POINT, $rootScope, $http, $httpParamSerializerJQLike) {
-    const AUTH_CHANGE_EVENT_NAME = 'user.auth.change';
-    let __isLogged = false;
-    let __token = null;
+    const AUTH_CHANGE_EVENT_NAME = 'user.auth.change'; //событие изменения авторизации пользователя
+    let __isLogged = false; //состояние авторизации, гость - false, авторизованный пользователь - true
+    let __token = null; //токен авторизованного пользователя
     let __username = null;
 
     return {
@@ -30,6 +38,11 @@ function authFactory(API_POINT, $rootScope, $http, $httpParamSerializerJQLike) {
         return __username;
     }
 
+    /**
+     * Регистрация пользователя
+     * @param userData - результат метода prepareUserData
+     * @returns Promise
+     */
     function registerUser(userData) {
         let url = API_POINT + '/api/register/';
 
@@ -57,6 +70,11 @@ function authFactory(API_POINT, $rootScope, $http, $httpParamSerializerJQLike) {
         });
     }
 
+    /**
+     * Авторизация пользователя
+     * @param userData - результат метода prepareUserData
+     * @returns Promise
+     */
     function authUser(userData) {
         let url = API_POINT + '/api/login/';
 
@@ -85,6 +103,9 @@ function authFactory(API_POINT, $rootScope, $http, $httpParamSerializerJQLike) {
 
     }
 
+    /**
+     * Выход из учетной записи
+     */
     function logout() {
         __username = null;
         __token = null;
@@ -92,6 +113,13 @@ function authFactory(API_POINT, $rootScope, $http, $httpParamSerializerJQLike) {
         $rootScope.$broadcast(AUTH_CHANGE_EVENT_NAME);
     }
 
+    /**
+     * Форматирование данных форм ввода
+     * @param username - логи пользователя
+     * @param password - пароль
+     * @returns {{password: string, username: string}}
+     * P.S. Лучше создать класс пользователя User и поместить форматирование в конструктор
+     */
     function prepareUserData(username, password) {
         username = String(username).trim();
         password = String(password);
@@ -102,6 +130,11 @@ function authFactory(API_POINT, $rootScope, $http, $httpParamSerializerJQLike) {
         }
     }
 
+    /**
+     * Валидация данных пользователя
+     * @param data - результат функции prepareUserData
+     * @returns {{valid: boolean, errors: []}}
+     */
     function validateUserData(data) {
         let errors = [];
         let username = data.username;

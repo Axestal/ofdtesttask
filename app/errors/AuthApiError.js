@@ -1,3 +1,8 @@
+/**
+ * Ошибка фабрики авторизации
+ * @param message
+ * @constructor
+ */
 function AuthApiError(message) {
     this.name = "AuthApiError";
     this.message = (message || "");

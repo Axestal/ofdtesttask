@@ -1,3 +1,4 @@
+//Директива вывода оценки отзыва в виде звезд
 function ratingStars() {
     return {
         restrict: 'A',

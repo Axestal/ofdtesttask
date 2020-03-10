@@ -1,14 +1,20 @@
 AuthController.$inject = ['$state', 'authFactory'];
 
+/**
+ * Контроллер страницы авторизации/регистрации
+ * @param $state
+ * @param authFactory
+ * @constructor
+ */
 function AuthController($state, authFactory) {
-    const AUTH_MODE = 'AUTH_MODE';
-    const REG_MODE = 'REG_MODE';
+    const AUTH_MODE = 'AUTH_MODE'; //режим представления - авторизация
+    const REG_MODE = 'REG_MODE'; //режим представления - регистрация
     let vm = this;
 
     vm.view = {
         AUTH_MODE: AUTH_MODE,
         REG_MODE: REG_MODE,
-        viewMode: AUTH_MODE,
+        viewMode: AUTH_MODE, //текущий режим представления
         regErrors: [],
         authErrors: []
     };
@@ -27,14 +33,17 @@ function AuthController($state, authFactory) {
         auth: auth
     };
 
+    //Переключение представление на форму регистрации
     function toRegisterMode() {
         vm.view.viewMode = REG_MODE;
     }
 
+    //Переключить представление на форму авторизации
     function toAuthMode() {
         vm.view.viewMode = AUTH_MODE;
     }
 
+    //зарегистрировать пользователя по данным из формы
     function register() {
         vm.view.regErrors = [];
         let username = vm.model.regUsername;
@@ -44,7 +53,7 @@ function AuthController($state, authFactory) {
 
         if (validation.valid === true) {
             authFactory.registerUser(userData).then(function () {
-                $state.go('productList');
+                $state.go('productList'); //в случае успеха переходим к списку товаров
             }).catch(function (error) {
                 vm.view.regErrors = [error.message];
             });
@@ -53,6 +62,7 @@ function AuthController($state, authFactory) {
         }
     }
 
+    //авторизовать пользователя по данным из формы
     function auth() {
         vm.view.authErrors = [];
         let username = vm.model.authUsername;
@@ -63,7 +73,7 @@ function AuthController($state, authFactory) {
 
         if (validation.valid === true) {
             authFactory.authUser(userData).then(function () {
-                $state.go('productList');
+                $state.go('productList'); //в случае успеха переходим к списку товаров
             }).catch(function (error) {
                 vm.view.authErrors = [error.message];
             });
